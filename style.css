@@ -569,8 +569,8 @@ section{
 }
 
 .projects-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 3rem;
     max-width: 1400px;
     margin: 0 auto;
@@ -578,6 +578,9 @@ section{
 }
 
 .project-item {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
     background-color: var(--light-bg);
     border-radius: 2rem;
     overflow: hidden;
@@ -585,6 +588,16 @@ section{
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid var(--border-color);
     position: relative;
+}
+
+/* Alternar layout: proyectos impares (imagen izquierda) */
+.project-item:nth-child(odd) {
+    flex-direction: row;
+}
+
+/* Alternar layout: proyectos pares (imagen derecha) */
+.project-item:nth-child(even) {
+    flex-direction: row-reverse;
 }
 
 .project-item::before {
@@ -620,7 +633,18 @@ section{
         var(--light-bg) 0%, 
         rgba(238, 216, 183, 0.3) 50%, 
         var(--light-bg) 100%);
-    border-radius: 2rem 2rem 0 0;
+    border-radius: 2rem;
+    flex: 0 0 40%;
+    min-width: 0;
+}
+
+/* Bordes redondeados según posición */
+.project-item:nth-child(odd) .project-image {
+    border-radius: 2rem 0 0 2rem;
+}
+
+.project-item:nth-child(even) .project-image {
+    border-radius: 0 2rem 2rem 0;
 }
 
 .project-image::before {
@@ -645,15 +669,24 @@ section{
 
 .project-image img {
     width: 100%;
-    height: 280px;
+    height: 100%;
+    min-height: 300px;
     object-fit: cover;
-    object-position: center;
+    object-position: left center;
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     background-color: transparent;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
     position: relative;
     z-index: 1;
-    border-radius: 2rem 2rem 0 0;
+    display: block;
+}
+
+.project-item:nth-child(odd) .project-image img {
+    border-radius: 2rem 0 0 2rem;
+}
+
+.project-item:nth-child(even) .project-image img {
+    border-radius: 0 2rem 2rem 0;
 }
 
 .project-item:hover .project-image img {
@@ -664,6 +697,7 @@ section{
 /* Special styling for API Books image */
 .api-image {
     object-fit: cover !important;
+    object-position: left center !important;
     background-color: transparent;
     border-radius: 2rem 2rem 0 0;
 }
@@ -675,7 +709,10 @@ section{
     background: linear-gradient(135deg, 
         var(--light-bg) 0%, 
         rgba(255, 255, 255, 0.8) 100%);
-    border-radius: 0 0 2rem 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .project-content h3 {
@@ -980,7 +1017,27 @@ section{
     }
     
     .projects-container {
-        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .project-item {
+        flex-direction: column !important;
+        gap: 0;
+    }
+    
+    .project-image {
+        flex: none;
+        width: 100%;
+        border-radius: 2rem 2rem 0 0 !important;
+    }
+    
+    .project-image img {
+        border-radius: 2rem 2rem 0 0 !important;
+        min-height: 280px;
+    }
+    
+    .project-content {
+        border-radius: 0 0 2rem 2rem;
     }
     
     .skills-container {
@@ -1078,12 +1135,22 @@ section{
     }
     
     .projects-container {
-        grid-template-columns: 1fr;
         gap: 2rem;
     }
     
     .project-item {
         margin: 0 1rem;
+        flex-direction: column !important;
+    }
+    
+    .project-image {
+        width: 100%;
+        border-radius: 2rem 2rem 0 0 !important;
+    }
+    
+    .project-image img {
+        border-radius: 2rem 2rem 0 0 !important;
+        min-height: 250px;
     }
     
     .btn-small {
